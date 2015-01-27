@@ -18,6 +18,12 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.part.ViewPart;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.util.Arrays;
+
 public class RequirementsIndicesView extends ViewPart implements ISelectionProvider{
 	
 	private void showMessage() {
@@ -50,6 +56,32 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String[] tokenize(String filePath) {
+		String fileContents = new String();
+		String fail[] = new String[1];
+		fail[0] = "failed";
+		
+		try {
+			FileReader file = new FileReader(filePath);
+			BufferedReader reader = new BufferedReader(file);
+			
+			String line;
+			while ((line = reader.readLine()) != null) {
+				fileContents = fileContents.concat(line);
+			}
+			reader.close();
+		}
+		catch (Exception e)
+		{
+			return fail;
+		}
+		
+		List<String> temp = new ArrayList<String>(Arrays.asList(fileContents.split("[\\W]")));
+		temp.removeAll(Arrays.asList(""));
+		
+		return temp.toArray(new String[temp.size()]);
+	}
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -70,7 +102,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		titleLabel.setLayoutData(formdata);
 		
 		//Create text area
-		Text indicesText = new Text(parent,SWT.MULTI|SWT.V_SCROLL|SWT.READ_ONLY);
+		Text indicesText = new Text(parent,SWT.MULTI|SWT.V_SCROLL|SWT.READ_ONLY|SWT.WRAP);
 		indicesText.setText("This is a sample result.");
 		formdata = new FormData();
 		formdata.top = new FormAttachment(titleLabel,10);
