@@ -162,15 +162,6 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		
 	}
 	
-	// testing only
-	public void populateDictionary() {
-		DICTIONARY.put("LHCP", "Licensed Health Care Professional");
-		DICTIONARY.put("ER", "Emergency Responder");
-		DICTIONARY.put("LT", "Laboratory Technician");
-		DICTIONARY.put("PHA", "Public Health Agent");
-		DICTIONARY.put("OB/GYN", "Obsterics and Gynaecology");
-	}
-	
 	// convert file to dictionary for restoring acronyms
 	public Map<String, String> getMapForRestoringAcronyms() {
 		Map<String, String> acronymMap  = new HashMap<String, String>();;
@@ -188,12 +179,11 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	// restore acronyms
 	public String restoreAcronyms(String[] wordArray) {
 		String outPutString = "";
-		populateDictionary();
 		Map<String, String> acronymList = getMapForRestoringAcronyms();
 		for (int i=0; i < wordArray.length; i++) {
 			for (String key : acronymList.keySet()) {
-				if (wordArray[i] == key) {
-					wordArray[i] = acronymList.get(key);
+				if (wordArray[i].equals(key)) {
+					wordArray[i] = (String)acronymList.get(key);
 				}
 			}
 			outPutString = outPutString + wordArray[i] + " ";
