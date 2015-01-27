@@ -1,5 +1,12 @@
 package tracing.views;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
@@ -8,14 +15,9 @@ import org.eclipse.ui.part.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.jface.action.*;
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.*;
-import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.SWT;
 
 
@@ -47,6 +49,10 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	 */
 	public static final String ID = "tracing.views.RequirementsView";
 	
+	// for testing purposes only
+	public String[] WORDARRAY = {"An", "admin", "creates", "a", "LHCP", "an", "ER", "a", "LT", "or", "a", "PHA"};
+	Map<String, String> DICTIONARY = new HashMap<String, String>();
+		
 	/**
 	 * The constructor.
 	 */
@@ -57,6 +63,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	 * This is a callback that will allow us
 	 * to create the viewer and initialize it.
 	 */
+	
 	@Override
 	public void createPartControl(Composite parent) {
 		//Set layout forum of parent composite
@@ -67,6 +74,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		Combo combo = comboViewer.getCombo();
 		combo.add("Choose Use Case");
 		combo.add("UC0");
+		combo.add("UC1");
 		combo.select(0);
 		
 		//Set combo position
@@ -95,6 +103,8 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 					text.setText("Indexing time of X requirement(s) is: Y seconds.");
 				else if(combo.getSelectionIndex()==1)
 					text.setText("This is a sample.");
+				else if(combo.getSelectionIndex()==2)
+					restoreAcronyms(WORDARRAY);
 				else
 					text.setText("");
 				
@@ -150,5 +160,55 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 			ISelectionChangedListener listener) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	// testing only
+	public void populateDictionary() {
+		DICTIONARY.put("LHCP", "Licensed Health Care Professional");
+		DICTIONARY.put("ER", "Emergency Responder");
+		DICTIONARY.put("LT", "Laboratory Technician");
+		DICTIONARY.put("PHA", "Public Health Agent");
+		DICTIONARY.put("OB/GYN", "Obsterics and Gynaecology");
+	}
+	
+	// convert file to dictionary for restoring acronyms
+	public Map<String, String> getMapForRestoringAcronyms() {
+		Map<String, String> acronymMap  = new HashMap<String, String>();;
+		String fileContents = FileReader("C:/Users/wisni_000/Documents/Spring 2015/Software Engineering/EECE3093SS15/src/Acronym_List");
+		String[] fileContentsArray = fileContents.split("(:\\s)|(\r\n)");
+		for (int i=0; i<fileContentsArray.length; i=i+2) {
+			String abbreviation = fileContentsArray[i].toString();
+			String expandedText = fileContentsArray[i+1].toString();
+			expandedText = expandedText.substring(0, expandedText.length()-1);
+			acronymMap.put(abbreviation, expandedText);
+		}
+		return acronymMap;
+	}
+	
+	// restore acronyms
+	public String restoreAcronyms(String[] wordArray) {
+		String outPutString = "";
+		populateDictionary();
+		Map<String, String> acronymList = getMapForRestoringAcronyms();
+		for (int i=0; i < wordArray.length; i++) {
+			for (String key : acronymList.keySet()) {
+				if (wordArray[i] == key) {
+					wordArray[i] = acronymList.get(key);
+				}
+			}
+			outPutString = outPutString + wordArray[i] + " ";
+		}
+		System.out.println(outPutString);
+		return outPutString;
+	}
+	
+	// read in file from string
+	public String FileReader(String fileName) {
+		try {
+			return new String(Files.readAllBytes(Paths.get(fileName)));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 }

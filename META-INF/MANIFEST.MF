@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EECE3093SS15
-Bundle-SymbolicName: Lab1;singleton:=true
+Bundle-SymbolicName: EECE3093SS15;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: tracing.Activator
 Require-Bundle: org.eclipse.ui,

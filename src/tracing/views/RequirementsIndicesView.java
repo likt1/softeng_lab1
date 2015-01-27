@@ -20,7 +20,7 @@ import org.eclipse.ui.part.ViewPart;
 
 public class RequirementsIndicesView extends ViewPart implements ISelectionProvider{
 	
-	private void showMessage(){
+	private void showMessage() {
 		MessageDialog.openInformation(new Shell(),
 				"Testhello",
 				"Hello, Eclipse world");
