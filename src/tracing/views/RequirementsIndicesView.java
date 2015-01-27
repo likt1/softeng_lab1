@@ -1,5 +1,9 @@
 package tracing.views;
 
+
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
+import javax.swing.JDialog;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -21,9 +25,14 @@ import org.eclipse.ui.part.ViewPart;
 public class RequirementsIndicesView extends ViewPart implements ISelectionProvider{
 	
 	private void showMessage() {
-		MessageDialog.openInformation(new Shell(),
-				"Testhello",
-				"Hello, Eclipse world");
+		RequirementsIndexViewerPreperationDlg frame = new RequirementsIndexViewerPreperationDlg();
+		frame.pack();
+		frame.setVisible(true);
+		while(frame.isNotDone){ try{Thread.sleep(50);} catch (Exception ex) {} }
+		JOptionPane.showMessageDialog(frame, "Eggs are not supposed to be green.");
+		
+		
+		
 	}
 	
 	@Override

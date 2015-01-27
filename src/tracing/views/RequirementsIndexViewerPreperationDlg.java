@@ -6,16 +6,22 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.awt.event.*;
 import java.io.*;
+import java.beans.*; 
 
 import javax.swing.*;
 import javax.swing.filechooser.*;
-import javax.swing.SwingUtilities;;
+import javax.swing.SwingUtilities;
 
 
-public class RequirementsIndexViewerPreperationDlg  extends JFrame
-implements MouseListener    {
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import javax.swing.JFrame;
 
-	JButton sourceBrowseButton, restoringBrosweButton, stopWordsBrowseButton;
+
+public class RequirementsIndexViewerPreperationDlg  extends JDialog
+implements MouseListener  {
+
+	JButton sourceBrowseButton, restoringBrosweButton, stopWordsBrowseButton, okButton;
 	JLabel sourceFolderLabel, tokeninizingLabel, restoringLabel, stopWordsLabel, stemmingLabel;
 	JTextField sourceFolderField, restoringField, stopWordsField;
 	JPanel sourcePanel,tokenPanel,acroynmsPanel,stopWordsPanel,stemmingPanel;
@@ -23,8 +29,8 @@ implements MouseListener    {
 	JFileChooser fc;
 	public RequirementsIndexViewerPreperationDlg()
 	{
-		super("Requirements Indexing");
-        Container pane = this.getContentPane();
+		super();
+		Container pane = this.getContentPane();
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
         
 		// Create the labels 
@@ -44,6 +50,8 @@ implements MouseListener    {
 		restoringBrosweButton.addMouseListener(this);
 		stopWordsBrowseButton = new JButton("Browse");
 		stopWordsBrowseButton.addMouseListener(this);
+		okButton = new JButton("OK");
+		okButton.addMouseListener(this);
 		//Add the check Boxes
 		tokenizingBox = new JCheckBox();
 		restoringBox = new JCheckBox();
@@ -65,25 +73,30 @@ implements MouseListener    {
 		tokenPanel.add(tokeninizingLabel);
 		tokenPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		
+		acroynmsPanel.add(restoringBox);
 		acroynmsPanel.add(restoringLabel);
 		acroynmsPanel.add(restoringBrosweButton);
 		acroynmsPanel.add(restoringField);
 		acroynmsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		stopWordsPanel.add(stopWordsBox);
 		stopWordsPanel.add(stopWordsLabel);
 		stopWordsPanel.add(stopWordsBrowseButton);
 		stopWordsPanel.add(stopWordsField);
 		stopWordsPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		stemmingPanel.add(stemmingBox);
 		stemmingPanel.add(stemmingLabel);
 		stemmingPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		//Add to this
+		
+
 		pane.add(sourcePanel);
 		pane.add(tokenPanel);
 		pane.add(acroynmsPanel);
 		pane.add(stopWordsPanel);
 		pane.add(stemmingPanel);
+		pane.add(okButton);
 		
 		fc = new JFileChooser();
 	}
@@ -114,14 +127,22 @@ implements MouseListener    {
 	                sourceFolderField.setText(file.getPath());
 			 }
 		 }
-		 this.repaint();
+		 else if(me.getSource() == okButton)
+		 {
+			
+			 //this.setVisable(false);
+			 isNotDone= false; 
 		 }
+		 this.repaint();
+	 }
 	 
 	 public void mouseEntered (MouseEvent me)  {this.repaint();} 
 	 public void mousePressed (MouseEvent me) {this.repaint();} 
 	 public void mouseReleased (MouseEvent me)  {this.repaint();} 
 	 public void mouseExited (MouseEvent me)  {this.repaint();}  
 	 
+	 
+	 public Boolean isNotDone = true;
 	
 	
 }
