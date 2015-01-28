@@ -48,11 +48,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "tracing.views.RequirementsView";
-	
-	// for testing purposes only
-	public String[] WORDARRAY = {"An", "admin", "creates", "a", "LHCP", "an", "ER", "a", "LT", "or", "a", "PHA"};
-	Map<String, String> DICTIONARY = new HashMap<String, String>();
-		
+			
 	/**
 	 * The constructor.
 	 */
@@ -103,8 +99,6 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 					text.setText("Indexing time of X requirement(s) is: Y seconds.");
 				else if(combo.getSelectionIndex()==1)
 					text.setText("This is a sample.");
-				else if(combo.getSelectionIndex()==2)
-					restoreAcronyms(WORDARRAY);
 				else
 					text.setText("");
 				
@@ -164,8 +158,9 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	
 	// convert file to dictionary for restoring acronyms
 	public Map<String, String> getMapForRestoringAcronyms() {
-		Map<String, String> acronymMap  = new HashMap<String, String>();;
-		String fileContents = FileReader("C:/Users/wisni_000/Documents/Spring 2015/Software Engineering/EECE3093SS15/src/Acronym_List");
+		Map<String, String> acronymMap  = new HashMap<String, String>();
+		// once we get Feature 1 working we will have the file path to put in here
+		String fileContents = FileReader("");
 		String[] fileContentsArray = fileContents.split("(:\\s)|(\r\n)");
 		for (int i=0; i<fileContentsArray.length; i=i+2) {
 			String abbreviation = fileContentsArray[i].toString();
@@ -177,6 +172,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	}
 	
 	// restore acronyms
+	// pass in word array after tokenizing
 	public String restoreAcronyms(String[] wordArray) {
 		String outPutString = "";
 		Map<String, String> acronymList = getMapForRestoringAcronyms();
@@ -188,7 +184,6 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 			}
 			outPutString = outPutString + wordArray[i] + " ";
 		}
-		System.out.println(outPutString);
 		return outPutString;
 	}
 	
