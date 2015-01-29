@@ -161,12 +161,11 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		Map<String, String> acronymMap  = new HashMap<String, String>();
 		// once we get Feature 1 working we will have the file path to put in here
 		String fileContents = FileReader("");
-		String[] fileContentsArray = fileContents.split("(:\\s)|(\r\n)");
+		// split file contents on ":", ".", and new lines to put abbreviation
+		// and expanded word into dictionary
+		String[] fileContentsArray = fileContents.split("(:\\s)|(\\.\r\n)");
 		for (int i=0; i<fileContentsArray.length; i=i+2) {
-			String abbreviation = fileContentsArray[i].toString();
-			String expandedText = fileContentsArray[i+1].toString();
-			expandedText = expandedText.substring(0, expandedText.length()-1);
-			acronymMap.put(abbreviation, expandedText);
+			acronymMap.put(fileContentsArray[i].toString(), fileContentsArray[i+1].toString());
 		}
 		return acronymMap;
 	}
