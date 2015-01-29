@@ -11,12 +11,12 @@ public class Test {
 	public void testGetMapForRestoringAcronyms() {
 		Map<String, String> actualMap  = new HashMap<String, String>();
 		Map<String, String> expectedMap  = new HashMap<String, String>();
-		String file = "LHCP: Licensed Health Care Professional.\r\n"
+		String fileContents = "LHCP: Licensed Health Care Professional.\r\n"
 				+ "ER: Emergency Responder.\r\n"
 				+ "LT: Laboratory Technician.\r\n"
 				+ "PHA: Public Health Agent.\r\n"
 				+ "OB/GYN: Obstetrics and Gynaecology.\r\n";
-		String[] fileContentsArray = file.split("(:\\s)|(\\.\r\n)");
+		String[] fileContentsArray = fileContents.split("(:\\s)|(\\.\r\n)");
 		actualMap.put("LHCP", "Licensed Health Care Professional");
 		actualMap.put("ER", "Emergency Responder");
 		actualMap.put("LT", "Laboratory Technician");
