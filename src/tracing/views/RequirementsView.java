@@ -108,17 +108,9 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 			public void widgetSelected(SelectionEvent e) {
 				if(combo.getSelectionIndex()==0)
 					text.setText("Indexing time of X requirement(s) is: Y seconds.");
-<<<<<<< HEAD
 				//else
 					// Set the text to the text of the selected file
 					//text.setText(reqs.get(combo.getItem(combo.getSelectionIndex())));
-=======
-				else if(combo.getSelectionIndex()==1)
-					text.setText("This is a sample.");
-				else
-					text.setText("");
->>>>>>> 68ba809c0756c8b7a0f8e8390a2150bd81c0d529
-				
 			}
 
 			@Override
