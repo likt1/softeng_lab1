@@ -188,9 +188,9 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	// pass in word array after tokenizing
 	public String restoreAcronyms(String stringFromFile) {
 		Map<String, String> acronymList = getMapForRestoringAcronyms();
-		String newString = new String();
+		String newString = stringFromFile;
 		for (String key : acronymList.keySet()) {
-			newString = stringFromFile.replace(key, (String)acronymList.get(key));
+			newString = newString.replace(key, (String)acronymList.get(key));
 		}
 		return newString;
 	}
