@@ -99,7 +99,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 			e1.printStackTrace();
 		}
 		
-		Combo combo = viewasdf.comboViewer.getCombo();
+		Combo combo = viewasdf.getComboViewer().getCombo();
 		combo.add("I was successfully ACTIVATED");
 		
 		//Set layout forum of parent composite
