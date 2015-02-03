@@ -42,7 +42,7 @@ import org.eclipse.swt.SWT;
 public class RequirementsView extends ViewPart implements ISelectionProvider{
 	
 	private ISelection selection;
-	private ComboViewer comboViewer;
+	public ComboViewer comboViewer;
 	
 	/**
 	 * The ID of the view as specified by the extension.
@@ -68,6 +68,14 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	public void createPartControl(Composite parent) {
 		//Set layout forum of parent composite
 		parent.setLayout(new FormLayout());
+		
+//		String[] tokens = viewasdf.tokenize("I:\\Files\\Documents\\COLLEGE\\Software Lab\\lab 1\\UC1.txt");
+//		
+//		String out = new String();
+//		
+//		for (int i = 0 ; i < tokens.length ; i++) {
+//			out = out + tokens[i] + " ";
+//		}
 		
 		//Create a drop box
 		comboViewer = new ComboViewer(parent,SWT.NONE|SWT.DROP_DOWN);

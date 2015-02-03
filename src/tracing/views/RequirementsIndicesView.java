@@ -11,11 +11,15 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import java.util.ArrayList;
@@ -57,27 +61,26 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		
 	}
 	
-	public String[] tokenize(String filePath) {
-		String fileContents = new String();
-		String fail[] = new String[1];
-		fail[0] = "failed";
+	public String[] tokenize(String str) {
+//		String fileContents = new String();
+//		String[] fail = {"Failed"};
+//		
+//		try {
+//			FileReader file = new FileReader(filePath);
+//			BufferedReader reader = new BufferedReader(file);
+//			
+//			String line;
+//			while ((line = reader.readLine()) != null) {
+//				fileContents = fileContents.concat(line);
+//			}
+//			reader.close();
+//		}
+//		catch (Exception e)
+//		{
+//			return fail;
+//		}
 		
-		try {
-			FileReader file = new FileReader(filePath);
-			BufferedReader reader = new BufferedReader(file);
-			
-			String line;
-			while ((line = reader.readLine()) != null) {
-				fileContents = fileContents.concat(line);
-			}
-			reader.close();
-		}
-		catch (Exception e)
-		{
-			return fail;
-		}
-		
-		List<String> temp = new ArrayList<String>(Arrays.asList(fileContents.split("[\\W]")));
+		List<String> temp = new ArrayList<String>(Arrays.asList(str.split("[\\W]")));
 		temp.removeAll(Arrays.asList(""));
 		
 		return temp.toArray(new String[temp.size()]);
@@ -87,6 +90,17 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	public void createPartControl(Composite parent) {
 		
 		showMessage();
+		RequirementsView viewasdf = new RequirementsView();
+		
+		try {
+			viewasdf = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");
+		} catch (PartInitException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		Combo combo = viewasdf.comboViewer.getCombo();
+		combo.add("I was successfully ACTIVATED");
 		
 		//Set layout forum of parent composite
 		parent.setLayout(new FormLayout());
