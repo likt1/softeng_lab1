@@ -90,17 +90,17 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	public void createPartControl(Composite parent) {
 		
 		showMessage();
-		RequirementsView viewasdf = new RequirementsView();
 		
 		try {
-			viewasdf = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");
+			RequirementsView otherView = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");
+		
+			Combo combo = otherView.getComboViewer().getCombo();
+			combo.add("I was successfully ACTIVATED");
+			
 		} catch (PartInitException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		Combo combo = viewasdf.getComboViewer().getCombo();
-		combo.add("I was successfully ACTIVATED");
 		
 		//Set layout forum of parent composite
 		parent.setLayout(new FormLayout());
