@@ -3,6 +3,7 @@ package tracing.views;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -183,6 +184,30 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 			}
 			outPutString = outPutString + wordArray[i] + " ";
 		}
+		return outPutString;
+	}
+	
+	// gets array of stop words
+	public String[] getStopWordArray() {
+		// once we get Feature 1 working we will have the file path to put in here
+		String fileContents = FileReader("");
+		String[] stopWordArray = fileContents.split("(,)");
+		return stopWordArray;
+	}
+	
+	// remove stop words
+	// pass in word array after tokenizing
+	public String removeStopWords(String[] wordArray) {
+		String outPutString = "";
+		String[] stopWordArray = getStopWordArray();
+		Arrays.sort(stopWordArray);
+		for (int i=0; i<wordArray.length; i++) {
+			int index = Arrays.binarySearch(stopWordArray, wordArray[i].toLowerCase());
+	        if (index >= 0) {} else {
+	        	outPutString = outPutString + wordArray[i].toString() + " ";
+	        }
+		}
+		outPutString = outPutString.substring(0, outPutString.length()-1);
 		return outPutString;
 	}
 	
