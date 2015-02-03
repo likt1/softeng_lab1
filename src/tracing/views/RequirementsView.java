@@ -1,7 +1,9 @@
 package tracing.views;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,6 +46,8 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	private ISelection selection;
 	private ComboViewer comboViewer;
 	
+	//private Map<String, String> reqs;
+	
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
@@ -57,6 +61,8 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	 * The constructor.
 	 */
 	public RequirementsView() {
+		// Hard coding folder name for testing purposes
+		//reqs = getMapFromFolder("C:\\Users\\Nathan\\Documents\\School\\Spring Semester 2015\\Software Engineering\\Labs\\Lab1_test_files");
 	}
 
 	/**
@@ -73,8 +79,12 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		comboViewer = new ComboViewer(parent,SWT.NONE|SWT.DROP_DOWN);
 		Combo combo = comboViewer.getCombo();
 		combo.add("Choose Use Case");
-		combo.add("UC0");
-		combo.add("UC1");
+		
+		// Add drop box options for each requirement stored in reqs map
+		/*for (Map.Entry<String, String> entry : reqs.entrySet()) {
+			combo.add(entry.getKey());
+		}*/
+		
 		combo.select(0);
 		
 		//Set combo position
@@ -101,12 +111,9 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 			public void widgetSelected(SelectionEvent e) {
 				if(combo.getSelectionIndex()==0)
 					text.setText("Indexing time of X requirement(s) is: Y seconds.");
-				else if(combo.getSelectionIndex()==1)
-					text.setText("This is a sample.");
-				else if(combo.getSelectionIndex()==2)
-					restoreAcronyms(WORDARRAY);
-				else
-					text.setText("");
+				//else
+					// Set the text to the text of the selected file
+					//text.setText(reqs.get(combo.getItem(combo.getSelectionIndex())));
 				
 			}
 
@@ -198,7 +205,22 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 			return new String(Files.readAllBytes(Paths.get(fileName)));
 		} catch (IOException e) {
 			e.printStackTrace();
-			return "";
+			return null;
 		}
+	}
+	
+	// Convert all files in a given directory into dictionary
+	// ["filename", "contents string"]
+	public Map<String, String> getMapFromFolder(String folder) {
+		Map<String, String> ret = new HashMap<String, String>();
+		File dir = new File(folder);
+		for (File file : dir.listFiles()) {
+			// Don't search into any further directories
+			if (file.isFile()) {
+				ret.put(file.getName(), FileReader(file.getAbsolutePath()));
+			}
+		}
+		
+		return ret;
 	}
 }
