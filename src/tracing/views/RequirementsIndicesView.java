@@ -96,7 +96,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	@Override
 	public void createPartControl(Composite parent) {
 		
-		showMessage();
+		showMessage();		
 		
 		try {
 			RequirementsView otherView = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");

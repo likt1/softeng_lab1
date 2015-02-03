@@ -188,10 +188,11 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	// pass in word array after tokenizing
 	public String restoreAcronyms(String stringFromFile) {
 		Map<String, String> acronymList = getMapForRestoringAcronyms();
+		String newString = new String();
 		for (String key : acronymList.keySet()) {
-			stringFromFile = stringFromFile.replace(key, (String)acronymList.get(key));
+			newString = stringFromFile.replace(key, (String)acronymList.get(key));
 		}
-		return stringFromFile;
+		return newString;
 	}
 	
 	// gets array of stop words
