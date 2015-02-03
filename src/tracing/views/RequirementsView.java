@@ -96,7 +96,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		combo.setLayoutData(formdata);
 		
 		//Set text position
-		text = new Text(parent,SWT.MULTI|SWT.V_SCROLL|SWT.READ_ONLY);
+		text = new Text(parent,SWT.MULTI|SWT.V_SCROLL|SWT.READ_ONLY|SWT.WRAP);
 		formdata = new FormData();
 		formdata.top=new FormAttachment(combo,10);
 		formdata.bottom = new FormAttachment(combo,600);
