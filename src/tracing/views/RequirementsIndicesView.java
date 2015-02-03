@@ -15,12 +15,22 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.util.Arrays;
 
 public class RequirementsIndicesView extends ViewPart implements ISelectionProvider{
 	
@@ -57,11 +67,47 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String[] tokenize(String str) {
+//		String fileContents = new String();
+//		String[] fail = {"Failed"};
+//		
+//		try {
+//			FileReader file = new FileReader(filePath);
+//			BufferedReader reader = new BufferedReader(file);
+//			
+//			String line;
+//			while ((line = reader.readLine()) != null) {
+//				fileContents = fileContents.concat(line);
+//			}
+//			reader.close();
+//		}
+//		catch (Exception e)
+//		{
+//			return fail;
+//		}
+		
+		List<String> temp = new ArrayList<String>(Arrays.asList(str.split("[\\W]")));
+		temp.removeAll(Arrays.asList(""));
+		
+		return temp.toArray(new String[temp.size()]);
+	}
 
 	@Override
 	public void createPartControl(Composite parent) {
 		
 		showMessage();
+		
+		try {
+			RequirementsView otherView = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");
+		
+			Combo combo = otherView.getComboViewer().getCombo();
+			combo.add("I was successfully ACTIVATED");
+			
+		} catch (PartInitException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		//Set layout forum of parent composite
 		parent.setLayout(new FormLayout());
@@ -77,7 +123,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		titleLabel.setLayoutData(formdata);
 		
 		//Create text area
-		Text indicesText = new Text(parent,SWT.MULTI|SWT.V_SCROLL|SWT.READ_ONLY);
+		Text indicesText = new Text(parent,SWT.MULTI|SWT.V_SCROLL|SWT.READ_ONLY|SWT.WRAP);
 		indicesText.setText("This is a sample result.");
 		formdata = new FormData();
 		formdata.top = new FormAttachment(titleLabel,10);

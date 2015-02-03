@@ -67,6 +67,11 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	 * to create the viewer and initialize it.
 	 */
 	
+	public ComboViewer getComboViewer()
+	{
+		return comboViewer;
+	}
+	
 	@Override
 	public void createPartControl(Composite parent) {
 		//Set layout forum of parent composite
