@@ -205,6 +205,39 @@ implements MouseListener  {
 		 return retValue;
 	 }
 	 
+	 public String  getSourcePath()
+	 {
+		 return sourceFolderField.getText();
+	 }
+	 
+	 public String getStopWordsPath()
+	 {
+		 return stopWordsField.getText();
+	 }
+	 
+	 public String getAcroymsPath()
+	 {
+		 return restoringField.getText();
+	 }
+	 
+	 public boolean getTokenizingBox()
+	 {
+		 return restoringBox.isSelected();
+	 }
 	
-	
+	 public boolean getStopBox()
+	 {
+		 return stopWordsBox.isSelected();
+	 }
+	 
+	 public boolean getStemmingBox()
+	 {
+		 return stemmingBox.isSelected();
+	 }
+	 
+	 public boolean getAcroymsBox()
+	 {
+		 return restoringBox.isSelected();
+	 }
+	 
 }
