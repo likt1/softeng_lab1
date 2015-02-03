@@ -46,7 +46,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	private ISelection selection;
 	private ComboViewer comboViewer;
 	
-	private Map<String, String> reqs;
+	//private Map<String, String> reqs;
 	
 	/**
 	 * The ID of the view as specified by the extension.
@@ -62,7 +62,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	 */
 	public RequirementsView() {
 		// Hard coding folder name for testing purposes
-		reqs = getMapFromFolder("C:\\Users\\Nathan\\Documents\\School\\Spring Semester 2015\\Software Engineering\\Labs\\Lab1_test_files");
+		//reqs = getMapFromFolder("C:\\Users\\Nathan\\Documents\\School\\Spring Semester 2015\\Software Engineering\\Labs\\Lab1_test_files");
 	}
 
 	/**
@@ -81,9 +81,9 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		combo.add("Choose Use Case");
 		
 		// Add drop box options for each requirement stored in reqs map
-		for (Map.Entry<String, String> entry : reqs.entrySet()) {
+		/*for (Map.Entry<String, String> entry : reqs.entrySet()) {
 			combo.add(entry.getKey());
-		}
+		}*/
 		
 		combo.select(0);
 		
@@ -111,9 +111,9 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 			public void widgetSelected(SelectionEvent e) {
 				if(combo.getSelectionIndex()==0)
 					text.setText("Indexing time of X requirement(s) is: Y seconds.");
-				else
+				//else
 					// Set the text to the text of the selected file
-					text.setText(reqs.get(combo.getItem(combo.getSelectionIndex())));
+					//text.setText(reqs.get(combo.getItem(combo.getSelectionIndex())));
 				
 			}
 
