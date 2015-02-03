@@ -24,12 +24,12 @@ import org.eclipse.ui.part.ViewPart;
 
 public class RequirementsIndicesView extends ViewPart implements ISelectionProvider{
 	
+	private RequirementsIndexViewerPreperationDlg frame;
+	
 	private void showMessage() {
-		RequirementsIndexViewerPreperationDlg frame = new RequirementsIndexViewerPreperationDlg();
+		frame = new RequirementsIndexViewerPreperationDlg();
 		frame.pack();
 		frame.setVisible(true);
-		
-		
 		
 	}
 	
@@ -107,6 +107,8 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 				// TODO Auto-generated method stub
 				
 			}
+			
+			
 			
 		});
 	}

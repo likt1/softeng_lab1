@@ -1,23 +1,10 @@
 package tracing.views;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.awt.event.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.beans.*; 
 
 import javax.swing.*;
-import javax.swing.filechooser.*;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-
-
-
-
-
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -212,12 +199,16 @@ implements MouseListener  {
 	 
 	 public String getStopWordsPath()
 	 {
-		 return stopWordsField.getText();
+		 String  retValue = null;
+		 if(stopWordsBox.isSelected()){ retValue =  stopWordsField.getText();}
+		 return retValue;
 	 }
 	 
 	 public String getAcroymsPath()
-	 {
-		 return restoringField.getText();
+	 {	
+		 String retValue = null;
+		 if(restoringBox.isSelected()) {retValue = restoringField.getText(); }
+		 return retValue;
 	 }
 	 
 	 public boolean getTokenizingBox()
