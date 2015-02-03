@@ -6,15 +6,21 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.file.Files;
 import java.beans.*; 
 
 import javax.swing.*;
 import javax.swing.filechooser.*;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+
+
 
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+
 import javax.swing.JFrame;
 
 
@@ -29,10 +35,24 @@ implements MouseListener  {
 	JFileChooser fc;
 	public RequirementsIndexViewerPreperationDlg()
 	{
-		super();
+		super(new JFrame(), true);
 		Container pane = this.getContentPane();
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-        
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowListener (){
+        	public void windowOpened(WindowEvent arg){}
+        	public void windowClosing(WindowEvent arg){
+        		if(checkValues())
+        		{
+        			setVisible(false);
+        		}
+        	}
+        	public void windowDeactivated(WindowEvent arg){}
+        	public void windowClosed(WindowEvent arg){}
+        	public void windowDeiconified(WindowEvent arg){}
+        	public void windowActivated(WindowEvent arg){}
+        	public void windowIconified(WindowEvent arg){}
+        });
 		// Create the labels 
 		sourceFolderLabel = new JLabel("Requiements source folder:");
 		restoringLabel = new JLabel("Restoring acronyms");
@@ -129,20 +149,62 @@ implements MouseListener  {
 		 }
 		 else if(me.getSource() == okButton)
 		 {
-			
-			 //this.setVisable(false);
-			 isNotDone= false; 
+			 if(checkValues())
+			 {
+				 this.setVisible(false);
+			 }
 		 }
 		 this.repaint();
+	 }
+	 
+	 private boolean checkValues()
+	 {
+		 boolean retValue = true;
+		 try{
+			 File f = new File(restoringField.getText());
+			 File g = new File(stopWordsField.getText());
+			 File h = new File(sourceFolderField.getText());
+			 if( !h.isDirectory())
+			 {
+				 JOptionPane.showMessageDialog(this, "Please provide valid directory.");
+				 retValue = false;
+			 }		
+			 else if(restoringBox.isSelected() && (!f.exists() || f.isDirectory() || !f.canRead() || !checkExtension(f.getPath(), ".txt")))
+			 {
+				 JOptionPane.showMessageDialog(this, "Please provide a valid filePath for the restoring acroyms.");
+				 retValue = false;
+			 }
+			 else if(stopWordsBox.isSelected() && (!g.exists() || g.isDirectory() || !g.canRead() || !checkExtension(g.getPath(), ".txt")))
+			 {
+				JOptionPane.showMessageDialog(this, "Please provide a valid file path for stop words.");
+				 retValue = false;
+			 }				 
+		 }
+		 catch(Exception e){
+			 JOptionPane.showMessageDialog(this, e.toString());
+			 retValue = false; 
+		 }
+		 return retValue;
 	 }
 	 
 	 public void mouseEntered (MouseEvent me)  {this.repaint();} 
 	 public void mousePressed (MouseEvent me) {this.repaint();} 
 	 public void mouseReleased (MouseEvent me)  {this.repaint();} 
 	 public void mouseExited (MouseEvent me)  {this.repaint();}  
+	 private boolean checkExtension(String filePath, String extension)
+	 {
+		 boolean retValue = false;
+		 int index= filePath.lastIndexOf('.');
+		 if(index >0){
+			 String fileExt = filePath.substring(index);
+			 if(fileExt.equals(extension))
+			 {	 
+				 retValue = true;
+			 }
+		 }
+		 return retValue;
+	 }
 	 
-	 
-	 public Boolean isNotDone = true;
 	
 	
 }

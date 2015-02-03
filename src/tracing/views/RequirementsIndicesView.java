@@ -28,8 +28,6 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		RequirementsIndexViewerPreperationDlg frame = new RequirementsIndexViewerPreperationDlg();
 		frame.pack();
 		frame.setVisible(true);
-		while(frame.isNotDone){ try{Thread.sleep(50);} catch (Exception ex) {} }
-		JOptionPane.showMessageDialog(frame, "Eggs are not supposed to be green.");
 		
 		
 		
