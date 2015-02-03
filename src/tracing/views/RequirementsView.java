@@ -186,18 +186,12 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	
 	// restore acronyms
 	// pass in word array after tokenizing
-	public String restoreAcronyms(String[] wordArray) {
-		String outPutString = "";
+	public String restoreAcronyms(String stringFromFile) {
 		Map<String, String> acronymList = getMapForRestoringAcronyms();
-		for (int i=0; i < wordArray.length; i++) {
-			for (String key : acronymList.keySet()) {
-				if (wordArray[i].equals(key)) {
-					wordArray[i] = (String)acronymList.get(key);
-				}
-			}
-			outPutString = outPutString + wordArray[i] + " ";
+		for (String key : acronymList.keySet()) {
+			stringFromFile = stringFromFile.replace(key, (String)acronymList.get(key));
 		}
-		return outPutString;
+		return stringFromFile;
 	}
 	
 	// gets array of stop words
