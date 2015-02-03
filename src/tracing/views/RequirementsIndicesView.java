@@ -44,7 +44,6 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		frame = new RequirementsIndexViewerPreperationDlg();
 		frame.pack();
 		frame.setVisible(true);
-
 	}
 	
 	@Override
@@ -105,14 +104,11 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		try {
 			RequirementsView otherView = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");
 
-			Combo combo = otherView.getComboViewer().getCombo();
-			combo.add("I was successfully ACTIVATED");
-
 			// Get source requirements from dialog box
 			reqs = otherView.getMapFromFolder(frame.getSourcePath());
 			
 			ComboViewer comboViewer = otherView.getComboViewer();
-			//Combo combo = comboViewer.getCombo();
+			Combo combo = comboViewer.getCombo();
 			Text text = otherView.getText();
 			
 			// Add drop box options for each requirement stored in reqs map
