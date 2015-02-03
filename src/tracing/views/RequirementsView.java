@@ -174,14 +174,15 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	
 	// remove stop words
 	// pass in word array after tokenizing
-	public String removeStopWords(String[] wordArray) {
+	public String removeStopWords(String stringFromFile) {
 		String outPutString = "";
 		String[] stopWordArray = getStopWordArray();
 		Arrays.sort(stopWordArray);
-		for (int i=0; i<wordArray.length; i++) {
-			int index = Arrays.binarySearch(stopWordArray, wordArray[i].toLowerCase());
+		String[] stringFromFileArray = stringFromFile.split("\\s+");
+		for (int i=0; i<stringFromFileArray.length; i++) {
+			int index = Arrays.binarySearch(stopWordArray, stringFromFileArray[i].toLowerCase());
 	        if (index >= 0) {} else {
-	        	outPutString = outPutString + wordArray[i].toString() + " ";
+	        	outPutString = outPutString + stringFromFileArray[i].toString() + " ";
 	        }
 		}
 		outPutString = outPutString.substring(0, outPutString.length()-1);
