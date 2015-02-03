@@ -198,6 +198,20 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		}
 	}
 	
+	 private boolean checkExtension(String filePath, String extension)
+	 {
+		 boolean retValue = false;
+		 int index= filePath.lastIndexOf('.');
+		 if(index >0){
+			 String fileExt = filePath.substring(index);
+			 if(fileExt.equals(extension))
+			 {	 
+				 retValue = true;
+			 }
+		 }
+		 return retValue;
+	 }
+	
 	// Convert all files in a given directory into dictionary
 	// ["filename", "contents string"]
 	public Map<String, String> getMapFromFolder(String folder) {
@@ -205,8 +219,12 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		File dir = new File(folder);
 		for (File file : dir.listFiles()) {
 			// Don't search into any further directories
+			
 			if (file.isFile()) {
-				ret.put(file.getName(), FileReader(file.getAbsolutePath()));
+				if(checkExtension(file.getPath(),".txt"))
+				{
+					ret.put(file.getName(), FileReader(file.getAbsolutePath()));
+				}
 			}
 		}
 		
