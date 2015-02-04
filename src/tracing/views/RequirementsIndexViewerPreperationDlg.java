@@ -213,7 +213,7 @@ implements MouseListener  {
 	 
 	 public boolean getTokenizingBox()
 	 {
-		 return restoringBox.isSelected();
+		 return tokenizingBox.isSelected();
 	 }
 	
 	 public boolean getStopBox()
