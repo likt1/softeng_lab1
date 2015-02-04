@@ -1,11 +1,6 @@
 package tracing.views;
 
 
-import javax.swing.JOptionPane;
-import javax.swing.JFrame;
-import javax.swing.JDialog;
-
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -21,10 +16,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
@@ -35,10 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.awt.datatransfer.StringSelection;
 import java.io.File;
-import java.io.FileReader;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -47,8 +36,8 @@ import java.util.Arrays;
 public class RequirementsIndicesView extends ViewPart implements ISelectionProvider{
 	
 	private RequirementsIndexViewerPreperationDlg frame;
-	private Map<String, String> reqs;
-	private Map<String, String> outPut;
+	private Map<String, String> contentsFromFolder;
+	private Map<String, String> modifiedMap;
 	
 	private void showMessage() {
 		frame = new RequirementsIndexViewerPreperationDlg();
@@ -139,7 +128,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	}
 	
 	// restore acronyms
-	// pass in word array after tokenizing
+	// pass in string of file contents
 	public String restoreAcronyms(String stringFromFile) {
 		Map<String, String> acronymList = getMapForRestoringAcronyms();
 		String newString = stringFromFile;
@@ -151,14 +140,14 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	
 	// gets array of stop words
 	public String[] getStopWordArray() {
-		// once we get Feature 1 working we will have the file path to put in here
+		// gets file path from dialog box
 		String fileContents = FileReader(frame.getStopWordsPath());
 		String[] stopWordArray = fileContents.split("(,)");
 		return stopWordArray;
 	}
 	
 	// remove stop words
-	// pass in word array after tokenizing
+	// pass in string returned after reading file contents
 	public String removeStopWords(String stringFromFile) {
 		String outPutString = "";
 		String[] stopWordArray = getStopWordArray();
@@ -166,13 +155,14 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		String[] stringFromFileArray = stringFromFile.split("((?<=\n)|(?=\n)|( ))");
 		for (int i=0; i<stringFromFileArray.length; i++) {
 			int index = Arrays.binarySearch(stopWordArray, stringFromFileArray[i].toLowerCase());
-	        if (index >= 0) {} else {
+	        // only add to output string if not a stop word
+			if (index < 0) {
 	        	String s = stringFromFileArray[i].toString();
-	        	outPutString = outPutString + s;
+	        	outPutString += s;
 	        	
 	        	if (!s.equals("\n")) {
 	        		// Only add space after words, not new lines
-	        		outPutString = outPutString + " ";
+	        		outPutString += " ";
 	        	}
 	        }
 		}
@@ -184,24 +174,6 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	}
 	
 	public String tokenize(String str) {
-//		String fileContents = new String();
-//		String[] fail = {"Failed"};
-//		
-//		try {
-//			FileReader file = new FileReader(filePath);
-//			BufferedReader reader = new BufferedReader(file);
-//			
-//			String line;
-//			while ((line = reader.readLine()) != null) {
-//				fileContents = fileContents.concat(line);
-//			}
-//			reader.close();
-//		}
-//		catch (Exception e)
-//		{
-//			return fail;
-//		}
-		
 		// Remove all tokens from the string and store result in an array
 		// Make sure to only remove spaces and not-words
 		List<String> temp = new ArrayList<String>(Arrays.asList(str.split("[^\\w\n]")));
@@ -256,28 +228,31 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 			RequirementsView otherView = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");
 
 			// Get source requirements from dialog box
-			reqs = getMapFromFolder(frame.getSourcePath());
+			contentsFromFolder = getMapFromFolder(frame.getSourcePath());
 			
-			// Copy reqs to outPut map
-			outPut = new HashMap<String, String>();
-			outPut.putAll(reqs);
+			// Copy contentsFromFolder map to outPut map
+			modifiedMap = new HashMap<String, String>();
+			modifiedMap.putAll(contentsFromFolder);
 			
 			// Start timing of file processing
 			long startTime = System.nanoTime();
 			
 			// Apply requested processing
-			for (String key : reqs.keySet()) {
+			for (String key : contentsFromFolder.keySet()) {
 				
+				// check if acronyms box is checked
 				if (frame.getAcronymsBox()) {
-					outPut.put(key, restoreAcronyms(outPut.get(key)));
+					modifiedMap.put(key, restoreAcronyms(modifiedMap.get(key)));
 				}
 				
+				// check if get Stop Words box is checked
 				if (frame.getStopBox()) {
-					outPut.put(key, removeStopWords(outPut.get(key)));					
+					modifiedMap.put(key, removeStopWords(modifiedMap.get(key)));					
 				}
 				
+				// check if tokenizing box is checked
 				if (frame.getTokenizingBox()) {
-					outPut.put(key, tokenize(outPut.get(key)));
+					modifiedMap.put(key, tokenize(modifiedMap.get(key)));
 				}
 			}
 			
@@ -290,15 +265,15 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 			String formTime = formatter.format(totalTime);
 			
 			// Default display for RequirementsView text
-			String defaultDisplay = "Indexing time of " + reqs.size() + " requirement(s) is: " + formTime + " seconds.";
+			String defaultDisplay = "Indexing time of " + contentsFromFolder.size() + " requirement(s) is: " + formTime + " seconds.";
 			
 			ComboViewer comboViewer = otherView.getComboViewer();
 			Combo combo = comboViewer.getCombo();
 			Text text = otherView.getText();
 			text.setText(defaultDisplay);
 			
-			// Add drop box options for each requirement stored in reqs map
-			for (Map.Entry<String, String> entry : reqs.entrySet()) {
+			// Add drop box options for each requirement stored in contentsFromFolder map
+			for (Map.Entry<String, String> entry : contentsFromFolder.entrySet()) {
 				combo.add(entry.getKey());
 			}
 			
@@ -310,8 +285,8 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 						text.setText(defaultDisplay);
 					else
 						// Set the text to the text of the selected file
-						text.setText(reqs.get(combo.getItem(combo.getSelectionIndex())));
-						indicesText.setText(outPut.get(combo.getItem(combo.getSelectionIndex())));
+						text.setText(contentsFromFolder.get(combo.getItem(combo.getSelectionIndex())));
+						indicesText.setText(modifiedMap.get(combo.getItem(combo.getSelectionIndex())));
 				}
 
 				@Override
@@ -357,9 +332,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 				// TODO Auto-generated method stub
 				
 			}
-			
-			
-			
+						
 		});
 	}
 
