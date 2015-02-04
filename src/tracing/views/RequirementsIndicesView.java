@@ -167,14 +167,23 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		for (int i=0; i<stringFromFileArray.length; i++) {
 			int index = Arrays.binarySearch(stopWordArray, stringFromFileArray[i].toLowerCase());
 	        if (index >= 0) {} else {
-	        	outPutString = outPutString + stringFromFileArray[i].toString() + " ";
+	        	String s = stringFromFileArray[i].toString();
+	        	outPutString = outPutString + s;
+	        	
+	        	if (!s.equals("\n")) {
+	        		// Only add space after words, not new lines
+	        		outPutString = outPutString + " ";
+	        	}
 	        }
 		}
+		
+		// Removes trailing space
 		outPutString = outPutString.substring(0, outPutString.length()-1);
+		
 		return outPutString;
 	}
 	
-	public String[] tokenize(String str) {
+	public String tokenize(String str) {
 //		String fileContents = new String();
 //		String[] fail = {"Failed"};
 //		
@@ -193,10 +202,26 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 //			return fail;
 //		}
 		
-		List<String> temp = new ArrayList<String>(Arrays.asList(str.split("[\\W]")));
+		// Remove all tokens from the string and store result in an array
+		// Make sure to only remove spaces and not-words
+		List<String> temp = new ArrayList<String>(Arrays.asList(str.split("[^\\w\n]")));
 		temp.removeAll(Arrays.asList(""));
 		
-		return temp.toArray(new String[temp.size()]);
+		// Recreate the string without tokens
+		String output = "";
+		for (String s : temp) {
+			output += s;
+			
+			if (!s.equals("\n")) {
+				// Add a space only after each word, not new lines
+				output += " ";
+			}
+		}
+		
+		// Removes trailing space
+		output = output.substring(0, output.length()-1);
+		
+		return output;
 	}
 
 	@Override
@@ -242,11 +267,17 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 			
 			// Apply requested processing
 			for (String key : reqs.keySet()) {
+				
 				if (frame.getAcroymsBox()) {
 					outPut.put(key, restoreAcronyms(outPut.get(key)));
 				}
+				
 				if (frame.getStopBox()) {
 					outPut.put(key, removeStopWords(outPut.get(key)));					
+				}
+				
+				if (frame.getTokenizingBox()) {
+					outPut.put(key, tokenize(outPut.get(key)));
 				}
 			}
 			
