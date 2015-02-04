@@ -226,7 +226,7 @@ implements MouseListener  {
 		 return stemmingBox.isSelected();
 	 }
 	 
-	 public boolean getAcroymsBox()
+	 public boolean getAcronymsBox()
 	 {
 		 return restoringBox.isSelected();
 	 }

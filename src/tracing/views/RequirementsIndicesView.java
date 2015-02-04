@@ -268,7 +268,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 			// Apply requested processing
 			for (String key : reqs.keySet()) {
 				
-				if (frame.getAcroymsBox()) {
+				if (frame.getAcronymsBox()) {
 					outPut.put(key, restoreAcronyms(outPut.get(key)));
 				}
 				
