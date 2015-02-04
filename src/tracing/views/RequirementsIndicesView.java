@@ -29,6 +29,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -235,9 +237,34 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 			outPut = new HashMap<String, String>();
 			outPut.putAll(reqs);
 			
+			// Start timing of file processing
+			long startTime = System.nanoTime();
+			
+			// Apply requested processing
+			for (String key : reqs.keySet()) {
+				if (frame.getAcroymsBox()) {
+					outPut.put(key, restoreAcronyms(outPut.get(key)));
+				}
+				if (frame.getStopBox()) {
+					outPut.put(key, removeStopWords(outPut.get(key)));					
+				}
+			}
+			
+			// End timing of file processing
+			long endTime = System.nanoTime();
+			
+			// Format time for display
+			double totalTime = (endTime - startTime) * 10E-9;
+			NumberFormat formatter = new DecimalFormat("#0.00");
+			String formTime = formatter.format(totalTime);
+			
+			// Default display for RequirementsView text
+			String defaultDisplay = "Indexing time of " + reqs.size() + " requirement(s) is: " + formTime + " seconds.";
+			
 			ComboViewer comboViewer = otherView.getComboViewer();
 			Combo combo = comboViewer.getCombo();
 			Text text = otherView.getText();
+			text.setText(defaultDisplay);
 			
 			// Add drop box options for each requirement stored in reqs map
 			for (Map.Entry<String, String> entry : reqs.entrySet()) {
@@ -249,7 +276,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 					if(combo.getSelectionIndex()==0)
-						text.setText("Indexing time of X requirement(s) is: Y seconds.");
+						text.setText(defaultDisplay);
 					else
 						// Set the text to the text of the selected file
 						text.setText(reqs.get(combo.getItem(combo.getSelectionIndex())));
@@ -273,15 +300,6 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 				}
 				
 			});
-			
-			for (String key : reqs.keySet()) {
-				if (frame.getAcroymsBox()) {
-					outPut.put(key, restoreAcronyms(outPut.get(key)));
-				}
-				if (frame.getStopBox()) {
-					outPut.put(key, removeStopWords(outPut.get(key)));					
-				}
-			}
 						
 		} catch (PartInitException e1) {
 			// TODO Auto-generated catch block

@@ -103,8 +103,6 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		formdata.left = new FormAttachment(0,5);
 		formdata.right = new FormAttachment(0,355);
 		text.setLayoutData(formdata);
-		//set text content
-		text.setText("Indexing time of X requirement(s) is: Y seconds.");
 	}
 	
 	@Override
