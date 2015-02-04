@@ -42,7 +42,7 @@ public class Test {
 		String expectedOutPut = "An admin creates a Licensed Health Care Professional, an "
 				+ "Emergency Responder, a Laboratory Technician, or a Public Health Agent";
 			for (String key : actualMap.keySet()) {
-				stringFromFile = stringFromFile.replace(key, (String)actualMap.get(key));
+				stringFromFile = stringFromFile.replace(key, actualMap.get(key));
 			} 
 			outPutString = stringFromFile;
 		//}
