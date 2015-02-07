@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.JOptionPane;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 
 import javax.swing.JFrame;
 
@@ -112,6 +114,10 @@ implements MouseListener  {
 		 if(me.getSource() == restoringBrosweButton ||
 			me.getSource() == stopWordsBrowseButton){
 			 fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			 FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				        "Text Files", "txt");
+			 fc.addChoosableFileFilter(filter);
+			 fc.setFileFilter(filter);
 			 int retValue = fc.showDialog(this, "Choose");
 			 if (retValue == JFileChooser.APPROVE_OPTION) {
 	                File file = fc.getSelectedFile();

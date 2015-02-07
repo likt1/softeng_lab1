@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.awt.*;
 
 public class RequirementsIndicesView extends ViewPart implements ISelectionProvider{
 	
@@ -42,6 +43,12 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	private void showMessage() {
 		frame = new RequirementsIndexViewerPreperationDlg();
 		frame.pack();
+	    final int width = frame.getWidth();
+	    final int height = frame.getHeight();
+	    final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	    int x = (screenSize.width / 2) - (width / 2);
+	    int y = (screenSize.height / 2) - (height / 2);
+		frame.setLocation(x, y);
 		frame.setVisible(true);
 	}
 	
