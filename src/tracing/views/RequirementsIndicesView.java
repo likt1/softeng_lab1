@@ -153,14 +153,30 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		return stopWordArray;
 	}
 	
-	public String Stem(String word)
+	public String Stem(String sentence )
 	{
-		Stemmer stemmer = new Stemmer();
-		for (int i = 0; i < word.length(); i++) {
-			stemmer.add(word.charAt(i));			
+		List<String> temp = new ArrayList<String>(Arrays.asList(sentence.split("[^\\w\n]")));
+		temp.removeAll(Arrays.asList(""));
+		List<String> newWords = new ArrayList<String>();
+		for(String word : temp )
+		{
+			Stemmer stemmer = new Stemmer();
+			for (int i = 0; i < word.length(); i++) {
+				stemmer.add(word.charAt(i));			
+			}
+			stemmer.stem();
+			newWords.add(stemmer.toString());
 		}
-		stemmer.stem();
-		return stemmer.toString();
+		String output = "";
+		for (String s : newWords) {
+			output += s;
+			
+			if (!s.equals("\n")) {
+				// Add a space only after each word, not new lines
+				output += " ";
+			}
+		}
+		return output;
 
 	}
 	// remove stop words
@@ -267,8 +283,9 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 					modifiedMap.put(key, removeStopWords(modifiedMap.get(key)));					
 				}
 				
+				//check if the stemming box is checked.
 				if(frame.getStemmingBox()){
-					modifiedMap.put(key, modifiedMap.get(key));
+					modifiedMap.put(key, Stem(modifiedMap.get(key)));
 				}
 				
 				// check if tokenizing box is checked
