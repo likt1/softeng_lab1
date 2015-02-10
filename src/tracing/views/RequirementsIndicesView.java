@@ -214,13 +214,13 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		
 		// Recreate the string without tokens
 		String output = "";
-		for (String s : temp) {
-			output += s;
-			
+		for (String s: temp) {
+			//Do not add empty new lines
 			if (!s.equals("\n")) {
-				// Add a space only after each word, not new lines
+				output += s;
 				output += " ";
 			}
+
 		}
 		
 		// Removes trailing space
