@@ -28,6 +28,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -229,6 +231,38 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		return output;
 	}
 
+	public void save(String reqFolder, String contents, String fileName)
+	{
+		File newFolder = new File(reqFolder + "\\Req_Indices");
+		String newFileName = "\\" + fileName.substring(0, fileName.lastIndexOf('.')) + "_Indices.txt";
+		
+		if(!newFolder.isDirectory())
+		{	
+			if(!newFolder.mkdir())
+			{
+				System.out.println("Failed to create Folder");
+				return;
+			}
+		}
+		
+		File newFile = new File(newFolder + newFileName);
+		try {
+			FileOutputStream writeStream = new FileOutputStream(newFile, false);
+			byte[] byteContent = contents.getBytes();
+			
+			try {
+				writeStream.write(byteContent);
+				writeStream.close();
+			} catch (IOException e) {
+				System.out.println("Failed to create File");
+				return;
+			}
+		} catch (FileNotFoundException e) {	
+			System.out.println("Failed to Find File");
+			return;
+		}
+	}
+
 	@Override
 	public void createPartControl(Composite parent) {
 		
@@ -292,6 +326,8 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 				if (frame.getTokenizingBox()) {
 					modifiedMap.put(key, tokenize(modifiedMap.get(key)));
 				}
+				
+				this.save(frame.getSourcePath(), modifiedMap.get(key), key);
 			}
 			
 			// End timing of file processing
