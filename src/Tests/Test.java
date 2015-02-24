@@ -2,8 +2,10 @@ package Tests;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Test {
@@ -76,6 +78,51 @@ public class Test {
 		}
 		outPutString = outPutString.substring(0, outPutString.length()-1);
 		assertEquals(outPutString, expectedOutput);
+	}
+	
+	@org.junit.Test
+	// test new tokenizer
+	// not accounting for camel case yet
+	public void testAdvancedTokenizing() {
+		List<String> str = new ArrayList<String>();
+		str.add("function x_stuff 1 + 2 and 3 - 4 ");
+		str.add("// hohafo_ 23 and @#$#@");
+		String outPut = new String();
+		for (String s : str) {
+			if (s.startsWith("//") || s.startsWith("/*")) {
+				outPut += s + " ";
+			} else {
+				String[] splitStringArray = s.split("[^\\w\n|[0-9]|[_])]");
+				for (String sa : splitStringArray) {
+					if (sa != null && sa.length() > 0) {
+						outPut += sa + " ";
+					}
+				}
+			}
+		}
+		outPut = outPut.substring(0, outPut.length()-1);
+		String expectedOutPut = "function x stuff and // hohafo_ 23 and @#$#@";
+		assertEquals(outPut, expectedOutPut);
+	}
+	
+	@org.junit.Test
+	public void testTekonizingCamelCase() {
+		// need to check for DBException => DB Exception
+		List<String> str = new ArrayList<String>();
+		str.add("this is a camelCase text and should be splitUpIntoWords");
+		String outPut = "";
+		for (String s : str) {
+			String[] splitStringArray = s.split("(?<=[a-z])(?=[A-Z])");
+			for (String sa : splitStringArray) {
+				if (sa != null && sa.length() > 0) {
+					outPut += sa + " ";
+				}
+			}
+		}
+
+		outPut = outPut.substring(0, outPut.length()-1);
+		String expectedOutPut = "this is a camel Case text and should be split Up Into Words";
+		assertEquals(outPut, expectedOutPut);
 	}
 
 }
