@@ -22,6 +22,13 @@
             id="tracing.views.RequirementsIndicesView"
             name="Requirements Indices">
       </view>
+      <view
+      		name="Method Indices"
+      		icon="icons/sample.gif"
+      		category="Tracing"
+      		class="tracing.views.MethodIndicesView"
+      		id="tracing.views.MethodIndicesView">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -38,6 +45,12 @@
                minimized="false"
                relationship="bottom"
                relative="org.eclipse.ui.views.ProblemView">
+         </view>
+         <view
+         	   id="tracing.views.MethodIndicesView"
+         	   minimized="false"
+         	   relationship="bottom"
+         	   relative="org.eclipse.ui.views.ProblemView">
          </view>
       </perspectiveExtension>
    </extension>
