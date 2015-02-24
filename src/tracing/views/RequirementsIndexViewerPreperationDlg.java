@@ -9,9 +9,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-
 import javax.swing.JFrame;
 
+import org.eclipse.core.resources.IProjectDescription;
 
 public class RequirementsIndexViewerPreperationDlg  extends JDialog
 implements MouseListener  {
@@ -145,6 +145,23 @@ implements MouseListener  {
 			 if(checkValues())
 			 {
 				 this.setVisible(false);
+				 
+				 /*
+				 IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(  new Path("PROJECT_PATH/.project"));
+				 IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
+				 project.create(description, null);
+				 project.open(null);
+				 
+				 IOverwriteQuery overwriteQuery = new IOverwriteQuery() {
+				        public String queryOverwrite(String file) { return ALL; }
+				};
+
+				String baseDir = // location of files to import
+				ImportOperation importOperation = new ImportOperation(project.getFullPath(),
+				        new File(baseDir), FileSystemStructureProvider.INSTANCE, overwriteQuery);
+				importOperation.setCreateContainerStructure(false);
+				importOperation.run(new NullProgressMonitor());
+				*/
 			 }
 		 }
 		 this.repaint();
