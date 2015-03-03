@@ -156,7 +156,8 @@ implements MouseListener  {
 				this.setVisible(false);
 				
 				try { // importiTrust
-					IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust\\.project"));
+					String currentPath = System.getProperty("user.home") + "\\Desktop";
+					IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path(currentPath + "\\iTrust\\.project"));
 					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
 					if(!project.exists())
 					{
