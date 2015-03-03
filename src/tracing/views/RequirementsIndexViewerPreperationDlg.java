@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -194,6 +195,26 @@ implements MouseListener  {
 			}
 		}
 		this.repaint();
+	}
+	
+	public void tokenize(ArrayList<String> codeLines) {
+		// need to handle new line character still
+		String outPut = "";
+		for (String s : codeLines) {
+			if (s.startsWith("//") || s.startsWith("/*")) {
+				outPut += s + " ";
+			} else {
+				String[] splitStringArray = s.split("(?<=[a-z])(?=[A-Z])|[\\W\n|[0-9]|[_])]|(?=[A-Z][a-z])+");
+				for (String sa : splitStringArray) {
+					if (sa != null && sa.length() > 0) {
+						outPut += sa + " ";
+					}
+				}
+			}
+		}
+		
+		outPut = outPut.substring(0, outPut.length()-1);
+		// put output string in dictionary
 	}
 
 	private boolean checkValues()
