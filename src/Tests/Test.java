@@ -85,23 +85,27 @@ public class Test {
 	// not accounting for camel case yet
 	public void testAdvancedTokenizing() {
 		List<String> str = new ArrayList<String>();
-		str.add("function x_stuff 1 + 2 and 3 - 4 () ");
+		str.add("function x_stuff 1 + 2 and 3 - 4 () \n");
 		str.add("// hohafo_ 23 and @#$#@");
 		String outPut = new String();
+		Boolean hasNewLine = false;
 		for (String s : str) {
+			hasNewLine = false;
 			if (s.startsWith("//") || s.startsWith("/*")) {
 				outPut += s + " ";
 			} else {
+				if (s.contains("\n")) hasNewLine = true;
 				String[] splitStringArray = s.split("[\\W\n|[0-9]|[_])]");
 				for (String sa : splitStringArray) {
 					if (sa != null && sa.length() > 0) {
 						outPut += sa + " ";
 					}
 				}
+				if (hasNewLine) outPut += "\n";
 			}
 		}
 		outPut = outPut.substring(0, outPut.length()-1);
-		String expectedOutPut = "function x stuff and // hohafo_ 23 and @#$#@";
+		String expectedOutPut = "function x stuff and \n// hohafo_ 23 and @#$#@";
 		assertEquals(outPut, expectedOutPut);
 	}
 	

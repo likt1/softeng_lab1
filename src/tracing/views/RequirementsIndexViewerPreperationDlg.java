@@ -197,24 +197,29 @@ implements MouseListener  {
 		this.repaint();
 	}
 	
+	// takes in array list of lines from code
+	// puts tokenized string into a dictionary
 	public void tokenize(ArrayList<String> codeLines) {
-		// need to handle new line character still
 		String outPut = "";
+		Boolean hasNewLine = false;
 		for (String s : codeLines) {
+			hasNewLine = false;
 			if (s.startsWith("//") || s.startsWith("/*")) {
 				outPut += s + " ";
 			} else {
+				if (s.contains("\n")) hasNewLine = true;
 				String[] splitStringArray = s.split("(?<=[a-z])(?=[A-Z])|[\\W\n|[0-9]|[_])]|(?=[A-Z][a-z])+");
 				for (String sa : splitStringArray) {
 					if (sa != null && sa.length() > 0) {
 						outPut += sa + " ";
 					}
 				}
+				if (hasNewLine) outPut += "\n";
 			}
 		}
 		
 		outPut = outPut.substring(0, outPut.length()-1);
-		// put output string in dictionary
+		// need to put output string in dictionary
 	}
 
 	private boolean checkValues()
