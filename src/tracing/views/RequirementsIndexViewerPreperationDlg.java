@@ -154,11 +154,14 @@ implements MouseListener  {
 			if(checkValues())
 			{
 				this.setVisible(false);
-
+				
 				try { // importiTrust
-					IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust"));
+					IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust\\.project"));
 					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
-					project.create(description, null);
+					if(!project.exists())
+					{
+						project.create(description, null);
+					}
 					project.open(null);
 				} catch (CoreException e) {
 					e.printStackTrace();
@@ -166,10 +169,8 @@ implements MouseListener  {
 				}
 
 //				try {
-//					IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust"));
+//					IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust\\.project"));
 //					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
-//					project.create(description, null);
-//					project.open(null);
 //
 //					IOverwriteQuery overwriteQuery = new IOverwriteQuery() {
 //						public String queryOverwrite(String file) { return ALL; }
