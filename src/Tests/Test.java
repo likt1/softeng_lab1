@@ -85,14 +85,14 @@ public class Test {
 	// not accounting for camel case yet
 	public void testAdvancedTokenizing() {
 		List<String> str = new ArrayList<String>();
-		str.add("function x_stuff 1 + 2 and 3 - 4 ");
+		str.add("function x_stuff 1 + 2 and 3 - 4 () ");
 		str.add("// hohafo_ 23 and @#$#@");
 		String outPut = new String();
 		for (String s : str) {
 			if (s.startsWith("//") || s.startsWith("/*")) {
 				outPut += s + " ";
 			} else {
-				String[] splitStringArray = s.split("[^\\w\n|[0-9]|[_])]");
+				String[] splitStringArray = s.split("[\\W\n|[0-9]|[_])]");
 				for (String sa : splitStringArray) {
 					if (sa != null && sa.length() > 0) {
 						outPut += sa + " ";
@@ -124,5 +124,68 @@ public class Test {
 		String expectedOutPut = "this is a camel Case text and should be split Up Into Words";
 		assertEquals(outPut, expectedOutPut);
 	}
+	
+	@org.junit.Test
+	public void testTekonizingCamelCaseAndAdvancedTokenizing() {
+		// need to check for DBException => DB Exception
+		List<String> str = new ArrayList<String>();
+		str.add("this is a camelCase text and should be splitUpIntoWords. function x_stuff 1 + 2 and 3 - 4");
+		String outPut = "";
+		for (String s : str) {
+			String[] splitStringArray = s.split("(?<=[a-z])(?=[A-Z])|[\\W\n|[0-9]|[_])]");
+			for (String sa : splitStringArray) {
+				if (sa != null && sa.length() > 0) {
+					outPut += sa + " ";
+				}
+			}
+		}
 
+		outPut = outPut.substring(0, outPut.length()-1);
+		String expectedOutPut = "this is a camel Case text and should be split Up Into Words function x stuff and";
+		assertEquals(outPut, expectedOutPut);
+	}
+
+	@org.junit.Test
+	public void testTokenizingMultipleCapLetters() {
+		List<String> str = new ArrayList<String>();
+		str.add("DBContext");
+		String outPut = "";
+		for (String s : str) {
+			String[] splitStringArray = s.split("(?=[A-Z][a-z])+");
+			for (String sa : splitStringArray) {
+				if (sa != null && sa.length() > 0) {
+					outPut += sa + " ";
+				}
+			}
+		}
+
+		outPut = outPut.substring(0, outPut.length()-1);
+		String expectedOutPut = "DB Context";
+		assertEquals(outPut, expectedOutPut);
+	}
+	
+	@org.junit.Test
+	public void testFeature14() {
+		List<String> str = new ArrayList<String>();
+		str.add("pstmt.setString(1, ipAddr);");
+		str.add("DBContext");
+		str.add("//pstmt.setString(2, failures);");
+		String outPut = "";
+		for (String s : str) {
+			if (s.startsWith("//") || s.startsWith("/*")) {
+				outPut += s + " ";
+			} else {
+				String[] splitStringArray = s.split("(?<=[a-z])(?=[A-Z])|[\\W\n|[0-9]|[_])]|(?=[A-Z][a-z])+");
+				for (String sa : splitStringArray) {
+					if (sa != null && sa.length() > 0) {
+						outPut += sa + " ";
+					}
+				}
+			}
+		}
+
+		outPut = outPut.substring(0, outPut.length()-1);
+		String expectedOutPut = "pstmt set String ip Addr DB Context //pstmt.setString(2, failures);";
+		assertEquals(outPut, expectedOutPut);
+	}
 }
