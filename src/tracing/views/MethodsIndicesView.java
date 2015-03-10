@@ -172,10 +172,6 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 				// Only proc on change events outside of this view
 				if (sourcepart != MethodsIndicesView.this && selection instanceof IStructuredSelection) {
 					
-					
-					
-					//TODO: Set text of this view text area to contents in dictionary corresponding
-					//      to selection method name.
 					IStructuredSelection s = (IStructuredSelection)selection;
 					if(s.getFirstElement() instanceof IMethod)
 					{
