@@ -7,7 +7,9 @@ Bundle-Activator: tracing.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.junit,
+ org.eclipse.jdt.ui,
  org.eclipse.core.resources,
  org.eclipse.ui.ide
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
+Import-Package: org.eclipse.jdt.core

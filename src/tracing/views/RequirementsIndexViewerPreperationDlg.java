@@ -1,3 +1,4 @@
+
 package tracing.views;
 import java.awt.*;
 import java.awt.event.*;
@@ -120,47 +121,6 @@ implements MouseListener  {
 		fc = new JFileChooser();
 	}
 
-	public void importiTrust()
-	{
-		try { // importiTrust
-			String currentPath = System.getProperty("user.home") + "\\Desktop";
-			IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path(currentPath + "\\iTrust\\.project"));
-			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
-			if(!project.exists())
-			{
-				project.create(description, null);
-			}
-			project.open(null);
-		} catch (CoreException e) {
-			e.printStackTrace();
-			return;
-		}
-
-//		try {
-//			IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust\\.project"));
-//			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
-//
-//			IOverwriteQuery overwriteQuery = new IOverwriteQuery() {
-//				public String queryOverwrite(String file) { return ALL; }
-//			};
-//
-//			String baseDir = "C:\\iTrust";
-//			ImportOperation importOperation = new ImportOperation(project.getFullPath(),
-//					new File(baseDir), FileSystemStructureProvider.INSTANCE, overwriteQuery);
-//			importOperation.setCreateContainerStructure(false);
-//			importOperation.run(new NullProgressMonitor());
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//			return;
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//			return;
-//		} catch (InvocationTargetException e) {
-//			e.printStackTrace();
-//			return;
-//		}
-	}
-	
 	public void mouseClicked (MouseEvent me) {
 		if(me.getSource() == restoringBrosweButton ||
 				me.getSource() == stopWordsBrowseButton){
@@ -196,7 +156,9 @@ implements MouseListener  {
 			if(checkValues())
 			{
 				this.setVisible(false);
-				this.importiTrust();
+
+//			
+
 			}
 		}
 		this.repaint();
@@ -204,28 +166,7 @@ implements MouseListener  {
 	
 	// takes in array list of lines from code
 	// puts tokenized string into a dictionary
-	public void tokenize(ArrayList<String> codeLines) {
-		String outPut = "";
-		Boolean hasNewLine = false;
-		for (String s : codeLines) {
-			hasNewLine = false;
-			if (s.startsWith("//") || s.startsWith("/*")) {
-				outPut += s + " ";
-			} else {
-				if (s.contains("\n")) hasNewLine = true;
-				String[] splitStringArray = s.split("(?<=[a-z])(?=[A-Z])|[\\W\n|[0-9]|[_])]|(?=[A-Z][a-z])+");
-				for (String sa : splitStringArray) {
-					if (sa != null && sa.length() > 0) {
-						outPut += sa + " ";
-					}
-				}
-				if (hasNewLine) outPut += "\n";
-			}
-		}
-		
-		outPut = outPut.substring(0, outPut.length()-1);
-		// need to put output string in dictionary
-	}
+
 
 	private boolean checkValues()
 	{

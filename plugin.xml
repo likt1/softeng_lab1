@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
+   <extension
+   		 	point="org.eclipse.ui.menus">
+   		 <category
+            name="Tracing"
+            id="Tracing">
+      	 </category>
+   		 <view
+   		 	name="Package Explorer"
+   		 	icon="icons/sample.gif"
+   		 	class="iTrust"
+   		 	id="iTrust">
+   		 </view>
+   </extension>
    <extension
          point="org.eclipse.ui.views">
       <category
@@ -23,11 +35,11 @@
             name="Requirements Indices">
       </view>
       <view
-      		name="Method Indices"
-      		icon="icons/sample.gif"
-      		category="Tracing"
-      		class="tracing.views.MethodIndicesView"
-      		id="tracing.views.MethodIndicesView">
+            category="Tracing"
+            class="tracing.views.MethodsIndicesView"
+            icon="icons/sample.gif"
+            id="tracing.views.MethodsIndicesView"
+            name="Methods Indices">
       </view>
    </extension>
    <extension
@@ -46,11 +58,11 @@
                relationship="bottom"
                relative="org.eclipse.ui.views.ProblemView">
          </view>
-         <view
-         	   id="tracing.views.MethodIndicesView"
-         	   minimized="false"
-         	   relationship="bottom"
-         	   relative="org.eclipse.ui.views.ProblemView">
+		 <view
+               id="tracing.views.MethodsIndicesView"
+               minimized="false"
+               relationship="bottom"
+               relative="org.eclipse.ui.views.ProblemView">
          </view>
       </perspectiveExtension>
    </extension>
