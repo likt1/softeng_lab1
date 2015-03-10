@@ -179,29 +179,19 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 					IStructuredSelection s = (IStructuredSelection)selection;
 					if(s.getFirstElement() instanceof IMethod)
 					{
-						IMethod method = (IMethod)s.getFirstElement();
-						String key = method.getDeclaringType().getFullyQualifiedName();
-						key+= ".";
-						key += method.getElementName();
-						if(methodMap.containsKey(key))
-						{
-							ArrayList<String> tokens = methodMap.get(key);
-							indicesText.setText(printFunction(tokens));
+						IMethod method = (IMethod)(s.getFirstElement());
+						try{
+						ArrayList<String> recovery = new ArrayList<String>();
+						recovery.add(method.getSource());
+						breakFunction(recovery);
+						recovery = tokenize(recovery);
+						indicesText.setText(printFunction(recovery));
 						}
-						else
+						catch(Exception e)
 						{
-							//something went wrong lets try to recover it and reparse real quick
-							try{
-							ArrayList<String> recovery = new ArrayList<String>();
-							recovery.add(method.getSource());
-							breakFunction(recovery);
-							recovery = tokenize(recovery);
-							}
-							catch(Exception e)
-							{
-								
-							}
+							e.printStackTrace();
 						}
+						
 					}
 				}
 			}
@@ -288,7 +278,7 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 						{
 							functionList.add(text.substring(lastIndex, i));
 							// we have a long comment and need to find the end mark.
-							int CommentEnd = text.indexOf("*/", i);
+							int CommentEnd = text.indexOf("*/", i)+1;
 							if(CommentEnd > 0)
 							{
 							functionList.add(text.substring(i, CommentEnd+1));
