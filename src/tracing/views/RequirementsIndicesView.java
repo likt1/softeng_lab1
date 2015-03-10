@@ -266,7 +266,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	@Override
 	public void createPartControl(Composite parent) {
 
-		showMessage();
+		// Prevent showing dialog box for Lab 2 showMessage();
 
 		//Set layout forum of parent composite
 		parent.setLayout(new FormLayout());
@@ -397,7 +397,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				showMessage();
+				// Prevent showing dialog box for Lab 2 showMessage();
 
 			}
 
