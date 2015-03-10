@@ -198,7 +198,7 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 		};
 		
 		// Add the workbench selection listener to the workbench
-		getSite().getWorkbenchWindow().getSelectionService().addPostSelectionListener(workbenchListener);
+		getSite().getWorkbenchWindow().getSelectionService().addSelectionListener(workbenchListener);
 	}
 
 	private String printFunction(ArrayList<String> list) {
