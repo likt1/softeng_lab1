@@ -11,6 +11,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -74,11 +75,13 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 		try { // importiTrust
 			IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust\\.project"));
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
-			project.create(description, null);
+			if(!project.exists())
+			{
+				project.create(description, null);
+			}
 			project.open(null);
-		} catch (Exception e)
-		{
-			
+		} catch (CoreException e) {
+			e.printStackTrace();
 		}
 		double startTime = 0;
 		int totalMethod = 0;
