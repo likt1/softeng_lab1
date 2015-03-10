@@ -120,6 +120,47 @@ implements MouseListener  {
 		fc = new JFileChooser();
 	}
 
+	public void importiTrust()
+	{
+		try { // importiTrust
+			String currentPath = System.getProperty("user.home") + "\\Desktop";
+			IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path(currentPath + "\\iTrust\\.project"));
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
+			if(!project.exists())
+			{
+				project.create(description, null);
+			}
+			project.open(null);
+		} catch (CoreException e) {
+			e.printStackTrace();
+			return;
+		}
+
+//		try {
+//			IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust\\.project"));
+//			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
+//
+//			IOverwriteQuery overwriteQuery = new IOverwriteQuery() {
+//				public String queryOverwrite(String file) { return ALL; }
+//			};
+//
+//			String baseDir = "C:\\iTrust";
+//			ImportOperation importOperation = new ImportOperation(project.getFullPath(),
+//					new File(baseDir), FileSystemStructureProvider.INSTANCE, overwriteQuery);
+//			importOperation.setCreateContainerStructure(false);
+//			importOperation.run(new NullProgressMonitor());
+//		} catch (CoreException e) {
+//			e.printStackTrace();
+//			return;
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//			return;
+//		} catch (InvocationTargetException e) {
+//			e.printStackTrace();
+//			return;
+//		}
+	}
+	
 	public void mouseClicked (MouseEvent me) {
 		if(me.getSource() == restoringBrosweButton ||
 				me.getSource() == stopWordsBrowseButton){
@@ -155,43 +196,7 @@ implements MouseListener  {
 			if(checkValues())
 			{
 				this.setVisible(false);
-
-				try { // importiTrust
-					IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust"));
-					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
-					project.create(description, null);
-					project.open(null);
-				} catch (CoreException e) {
-					e.printStackTrace();
-					return;
-				}
-
-//				try {
-//					IProjectDescription description = ResourcesPlugin.getWorkspace().loadProjectDescription(new Path("C:\\iTrust"));
-//					IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
-//					project.create(description, null);
-//					project.open(null);
-//
-//					IOverwriteQuery overwriteQuery = new IOverwriteQuery() {
-//						public String queryOverwrite(String file) { return ALL; }
-//					};
-//
-//					String baseDir = "C:\\iTrust";
-//					ImportOperation importOperation = new ImportOperation(project.getFullPath(),
-//							new File(baseDir), FileSystemStructureProvider.INSTANCE, overwriteQuery);
-//					importOperation.setCreateContainerStructure(false);
-//					importOperation.run(new NullProgressMonitor());
-//				} catch (CoreException e) {
-//					e.printStackTrace();
-//					return;
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//					return;
-//				} catch (InvocationTargetException e) {
-//					e.printStackTrace();
-//					return;
-//				}
-
+				this.importiTrust();
 			}
 		}
 		this.repaint();
