@@ -265,7 +265,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 
 	@Override
 	public void createPartControl(Composite parent) {
-
+		Timer timer = new Timer();
 		// Prevent showing dialog box for Lab 2 showMessage();
 
 		//Set layout forum of parent composite
@@ -290,10 +290,10 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		formdata.left = new FormAttachment(0,10);
 		formdata.right = new FormAttachment(0,800);
 		indicesText.setLayoutData(formdata);
-
+		timer.StartTimer();
 		try {
 			RequirementsView otherView = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");
-			long startTime = System.nanoTime();
+
 			// Get source requirements from dialog box
 			contentsFromFolder = getMapFromFolder(frame.getSourcePath());
 
@@ -330,16 +330,9 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 				this.save(frame.getSourcePath(), modifiedMap.get(key), key);
 			}
 
-			// End timing of file processing
-			long endTime = System.nanoTime();
-
-			// Format time for display
-			double totalTime = (endTime - startTime) * 10E-9;
-			NumberFormat formatter = new DecimalFormat("#0.00");
-			String formTime = formatter.format(totalTime);
-
+			timer.EndTimer();
 			// Default display for RequirementsView text
-			String defaultDisplay = "Indexing time of " + contentsFromFolder.size() + " requirement(s) is: " + formTime + " seconds.";
+			String defaultDisplay = "Indexing time of " + contentsFromFolder.size() + " requirement(s) is: " + timer.CheckTimer() + " seconds.";
 
 			ComboViewer comboViewer = otherView.getComboViewer();
 			Combo combo = comboViewer.getCombo();
