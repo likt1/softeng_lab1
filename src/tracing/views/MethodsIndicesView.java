@@ -322,7 +322,7 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 				{
 					if(!inWord)
 					{
-						if(isLetter(line.charAt(i)))
+						if (checkChar(line.charAt(i), true, false))
 						{
 							inWord = true;
 							oldIndex = i;
@@ -330,12 +330,12 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 					}
 					else
 					{
-						if(!isLetter(line.charAt(i)))
+						if(!checkChar(line.charAt(i), true, false))
 						{
 							inWord = false;
 							newList.add(line.substring(oldIndex, i));
 						}
-						else if(isUpper(line.charAt(i)))
+						else if((checkChar(line.charAt(i), false, true)))
 						{
 							newList.add(line.substring(oldIndex, i));
 							oldIndex = i;
@@ -352,22 +352,10 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 		return newList;
 	}
 	
-	
-	private boolean isLetter(char ch)
-	{
-		return ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'));
+	private boolean checkChar(char ch, boolean isLetter, boolean isUpper) {
+		if (isLetter) return ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'));
+		else if (isUpper) return (ch >= 'A' && ch <= 'Z');
+		else return false;
 	}
-	
-	private boolean isUpper(char ch)
-	{
-		return (ch >= 'A' && ch <= 'Z');
-	}
-	
-	private boolean isLower(char ch)
-	{
-		return (ch >= 'a' && ch <= 'z');
-	}
-	
-	
 }
 

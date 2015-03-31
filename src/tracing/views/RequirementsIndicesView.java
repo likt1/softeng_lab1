@@ -126,7 +126,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	private Map<String, String> getMapForRestoringAcronyms() {
 		Map<String, String> acronymMap  = new HashMap<String, String>();
 		// once we get Feature 1 working we will have the file path to put in here
-		String fileContents = FileReader(frame.getAcroymsPath());
+		String fileContents = FileReader(frame.getPath(false, false, true));
 		// split file contents on ":", ".", and new lines to put abbreviation
 		// and expanded word into dictionary
 		String[] fileContentsArray = fileContents.split("(:\\s)|(\\.\r\n)");
@@ -150,7 +150,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	// gets array of stop words
 	private String[] getStopWordArray() {
 		// gets file path from dialog box
-		String fileContents = FileReader(frame.getStopWordsPath());
+		String fileContents = FileReader(frame.getPath(false, true, false));
 		String[] stopWordArray = fileContents.split("(,)");
 		return stopWordArray;
 	}
@@ -297,7 +297,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 			RequirementsView otherView = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");
 			long startTime = System.nanoTime();
 			// Get source requirements from dialog box
-			contentsFromFolder = getMapFromFolder(frame.getSourcePath());
+			contentsFromFolder = getMapFromFolder(frame.getPath(true, false, false));
 
 			// Copy contentsFromFolder map to outPut map
 			modifiedMap = new HashMap<String, String>();
@@ -329,7 +329,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 					modifiedMap.put(key, tokenize(modifiedMap.get(key)));
 				}
 
-				this.save(frame.getSourcePath(), modifiedMap.get(key), key);
+				this.save(frame.getPath(true, false, false), modifiedMap.get(key), key);
 			}
 
 			// End timing of file processing
