@@ -203,24 +203,15 @@ implements MouseListener  {
 		}
 		return retValue;
 	}
-
-	public String  getSourcePath()
-	{
-		return sourceFolderField.getText();
-	}
-
-	public String getStopWordsPath()
-	{
-		String  retValue = null;
-		if(stopWordsBox.isSelected()){ retValue =  stopWordsField.getText();}
-		return retValue;
-	}
-
-	public String getAcroymsPath()
-	{	
-		String retValue = null;
-		if(restoringBox.isSelected()) {retValue = restoringField.getText(); }
-		return retValue;
+	
+	public String getPath(boolean isSource, boolean isStopWords, boolean isAcronyms) {
+		if (isSource) return sourceFolderField.getText();
+		else {
+			String path = null;
+			if (isStopWords && stopWordsBox.isSelected()) path = stopWordsField.getText();
+			if (isAcronyms && restoringBox.isSelected()) path = restoringField.getText();
+			return path;
+		}
 	}
 
 	public boolean getTokenizingBox()
