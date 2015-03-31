@@ -3,8 +3,6 @@ package tracing.views;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -13,16 +11,6 @@ import java.awt.event.WindowListener;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JFrame;
-
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.ui.dialogs.IOverwriteQuery;
-import org.eclipse.ui.wizards.datatransfer.FileSystemStructureProvider;
-import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 
 public class RequirementsIndexViewerPreperationDlg  extends JDialog
 implements MouseListener  {

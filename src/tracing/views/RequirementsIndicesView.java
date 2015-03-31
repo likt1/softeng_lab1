@@ -80,7 +80,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	}
 
 	// read in file from string
-	public String FileReader(String fileName) {
+	private String FileReader(String fileName) {
 		try {
 			return new String(Files.readAllBytes(Paths.get(fileName)));
 		} catch (IOException e) {
@@ -105,7 +105,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 
 	// Convert all files in a given directory into dictionary
 	// ["filename", "contents string"]
-	public Map<String, String> getMapFromFolder(String folder) {
+	private Map<String, String> getMapFromFolder(String folder) {
 		Map<String, String> ret = new HashMap<String, String>();
 		File dir = new File(folder);
 		for (File file : dir.listFiles()) {
@@ -123,7 +123,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	}
 
 	// convert file to dictionary for restoring acronyms
-	public Map<String, String> getMapForRestoringAcronyms() {
+	private Map<String, String> getMapForRestoringAcronyms() {
 		Map<String, String> acronymMap  = new HashMap<String, String>();
 		// once we get Feature 1 working we will have the file path to put in here
 		String fileContents = FileReader(frame.getAcroymsPath());
@@ -138,7 +138,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 
 	// restore acronyms
 	// pass in string of file contents
-	public String restoreAcronyms(String stringFromFile) {
+	private String restoreAcronyms(String stringFromFile) {
 		Map<String, String> acronymList = getMapForRestoringAcronyms();
 		String newString = stringFromFile;
 		for (String key : acronymList.keySet()) {
@@ -148,16 +148,17 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	}
 
 	// gets array of stop words
-	public String[] getStopWordArray() {
+	private String[] getStopWordArray() {
 		// gets file path from dialog box
 		String fileContents = FileReader(frame.getStopWordsPath());
 		String[] stopWordArray = fileContents.split("(,)");
 		return stopWordArray;
 	}
 
-	public String Stem(String sentence )
+	private String Stem(String sentence )
 	{
-		List<String> temp = new ArrayList<String>(Arrays.asList(sentence.split("[^\\w\n]")));
+		String[] splitSentence = sentence.split("[^\\w\n]");
+		List<String> temp = new ArrayList<String>(Arrays.asList(splitSentence));
 		temp.removeAll(Arrays.asList(""));
 		List<String> newWords = new ArrayList<String>();
 		for(String word : temp )
@@ -183,7 +184,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	}
 	// remove stop words
 	// pass in string returned after reading file contents
-	public String removeStopWords(String stringFromFile) {
+	private String removeStopWords(String stringFromFile) {
 		String outPutString = "";
 		String[] stopWordArray = getStopWordArray();
 		Arrays.sort(stopWordArray);
@@ -208,10 +209,11 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		return outPutString;
 	}
 
-	public String tokenize(String str) {
+	private String tokenize(String str) {
 		// Remove all tokens from the string and store result in an array
 		// Make sure to only remove spaces and not-words
-		List<String> temp = new ArrayList<String>(Arrays.asList(str.split("[^\\w\n]")));
+		String[] splitSentence = str.split("[^\\w\n]");
+		List<String> temp = new ArrayList<String>(Arrays.asList(splitSentence));
 		temp.removeAll(Arrays.asList(""));
 
 		// Recreate the string without tokens
@@ -231,7 +233,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		return output;
 	}
 
-	public void save(String reqFolder, String contents, String fileName)
+	private void save(String reqFolder, String contents, String fileName)
 	{
 		File newFolder = new File(reqFolder + "\\Req_Indices");
 		String newFileName = "\\" + fileName.substring(0, fileName.lastIndexOf('.')) + "_Indices.txt";
@@ -266,7 +268,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	@Override
 	public void createPartControl(Composite parent) {
 
-		// showMessage();
+		showMessage();
 
 		//Set layout forum of parent composite
 		parent.setLayout(new FormLayout());
