@@ -31,7 +31,6 @@ import org.eclipse.swt.SWT;
 
 public class RequirementsView extends ViewPart implements ISelectionProvider{
 	
-	private ISelection selection;
 	private ComboViewer comboViewer;
 	private Text text;
 		
@@ -46,11 +45,6 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	public RequirementsView() {
 		
 	}
-
-	/**
-	 * This is a callback that will allow us
-	 * to create the viewer and initialize it.
-	 */
 	
 	// Get drop-down menu
 	public ComboViewer getComboViewer()
@@ -62,7 +56,11 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	public Text getText() {
 		return text;
 	}
-	
+
+	/**
+	 * This is a callback that will allow us
+	 * to create the viewer and initialize it.
+	 */
 	@Override
 	public void createPartControl(Composite parent) {
 		//Set layout forum of parent composite
@@ -94,8 +92,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	
 	@Override
 	public void setSelection(ISelection selection) {
-		this.selection = selection;
-		SelectionChangedEvent event = new SelectionChangedEvent(comboViewer,selection);
+		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -103,6 +100,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 	 */
 	@Override
 	public void setFocus() {
+		// TODO Auto-generated method stub
 	}
 
 	@Override
