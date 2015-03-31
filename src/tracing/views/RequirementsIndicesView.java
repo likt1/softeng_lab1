@@ -266,7 +266,7 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 	@Override
 	public void createPartControl(Composite parent) {
 
-		showMessage();
+		// showMessage();
 
 		//Set layout forum of parent composite
 		parent.setLayout(new FormLayout());
