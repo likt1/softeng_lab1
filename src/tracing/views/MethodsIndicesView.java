@@ -68,6 +68,7 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 	
 	@Override
 	public void createPartControl(Composite parent) {
+		Timer timer = new Timer();
 		File f = new File("C:\\iTrust\\.project");
 		if(!f.exists() || f.isDirectory()) { 
 	        JOptionPane.showMessageDialog(null,"Could not find the iTrust project file. Please ensure that iTrsut located at C:\\iTrust" , "InfoBox: File Missing", JOptionPane.INFORMATION_MESSAGE); }
@@ -80,7 +81,6 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 		{
 			
 		}
-		double startTime = 0;
 		int totalMethod = 0;
 		try{
 	
@@ -90,7 +90,7 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 			IProject[] projects = root.getProjects();
 
 			// process each project
-			startTime = System.nanoTime();
+			timer.StartTimer();
 			for (IProject project : projects) {
 
 				
@@ -136,8 +136,7 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 		{
 			e.printStackTrace();
 		}
-		double endTime = System.nanoTime();
-		double totalTime = (endTime - startTime)/1000000000;
+		timer.EndTimer();
 		//Set layout forum of parent composite
 		parent.setLayout(new FormLayout());
 		
@@ -153,7 +152,7 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 		
 		//Create text area
 		Text indicesText = new Text(parent,SWT.MULTI|SWT.V_SCROLL|SWT.READ_ONLY|SWT.WRAP);
-		indicesText.setText("It took "+ totalTime + " seconds to index "+ totalMethod  +"  methods.");
+		indicesText.setText("It took "+ timer.CheckTimer() + " seconds to index "+ totalMethod  +"  methods.");
 		formdata = new FormData();
 		formdata.top = new FormAttachment(titleLabel,10);
 		formdata.bottom = new FormAttachment(titleLabel,230);

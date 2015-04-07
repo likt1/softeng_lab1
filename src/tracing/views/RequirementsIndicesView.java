@@ -292,10 +292,10 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 		formdata.left = new FormAttachment(0,10);
 		formdata.right = new FormAttachment(0,800);
 		indicesText.setLayoutData(formdata);
-
+		Timer timer = new Timer();
 		try {
 			RequirementsView otherView = (RequirementsView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("tracing.views.RequirementsView");
-			long startTime = System.nanoTime();
+			timer.StartTimer();
 			// Get source requirements from dialog box
 			contentsFromFolder = getMapFromFolder(frame.getPath(true, false, false));
 
@@ -333,15 +333,11 @@ public class RequirementsIndicesView extends ViewPart implements ISelectionProvi
 			}
 
 			// End timing of file processing
-			long endTime = System.nanoTime();
+			timer.EndTimer();
 
-			// Format time for display
-			double totalTime = (endTime - startTime) * 10E-9;
-			NumberFormat formatter = new DecimalFormat("#0.00");
-			String formTime = formatter.format(totalTime);
 
 			// Default display for RequirementsView text
-			String defaultDisplay = "Indexing time of " + contentsFromFolder.size() + " requirement(s) is: " + formTime + " seconds.";
+			String defaultDisplay = "Indexing time of " + contentsFromFolder.size() + " requirement(s) is: " + timer.CheckTimer() + " seconds.";
 
 			ComboViewer comboViewer = otherView.getComboViewer();
 			Combo combo = comboViewer.getCombo();
