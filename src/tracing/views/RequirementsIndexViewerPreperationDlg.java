@@ -158,7 +158,6 @@ implements MouseListener  {
 
 	private boolean checkValues()
 	{
-		boolean retValue = true;
 		try{
 			File f = new File(restoringField.getText());
 			File g = new File(stopWordsField.getText());
@@ -166,42 +165,41 @@ implements MouseListener  {
 			if( !h.isDirectory())
 			{
 				JOptionPane.showMessageDialog(this, "Please provide valid directory.");
-				retValue = false;
+				return false;
 			}		
 			else if(restoringBox.isSelected() && (!f.exists() || f.isDirectory() || !f.canRead() || !checkExtension(f.getPath(), ".txt")))
 			{
 				JOptionPane.showMessageDialog(this, "Please provide a valid filePath for the restoring acroyms.");
-				retValue = false;
+				return false;
 			}
 			else if(stopWordsBox.isSelected() && (!g.exists() || g.isDirectory() || !g.canRead() || !checkExtension(g.getPath(), ".txt")))
 			{
 				JOptionPane.showMessageDialog(this, "Please provide a valid file path for stop words.");
-				retValue = false;
+				return false;
 			}				 
 		}
 		catch(Exception e){
 			JOptionPane.showMessageDialog(this, e.toString());
-			retValue = false; 
+			return false; 
 		}
-		return retValue;
+		return true;
 	}
 
 	public void mouseEntered (MouseEvent me)  {this.repaint();} 
 	public void mousePressed (MouseEvent me) {this.repaint();} 
 	public void mouseReleased (MouseEvent me)  {this.repaint();} 
 	public void mouseExited (MouseEvent me)  {this.repaint();}  
-	private boolean checkExtension(String filePath, String extension)
+	public boolean checkExtension(String filePath, String extension)
 	{
-		boolean retValue = false;
 		int index= filePath.lastIndexOf('.');
 		if(index >0){
 			String fileExt = filePath.substring(index);
 			if(fileExt.equals(extension))
 			{	 
-				retValue = true;
+				return true;
 			}
 		}
-		return retValue;
+		return false;
 	}
 	
 	public String getPath(boolean isSource, boolean isStopWords, boolean isAcronyms) {
