@@ -1,4 +1,6 @@
-softeng_lab1
+Software Engineering Lab
 ============
 
-Software Engineering Lab 1 Repository
+Software Engineering Lab 1-3 Repository
+
+To work together as a team
