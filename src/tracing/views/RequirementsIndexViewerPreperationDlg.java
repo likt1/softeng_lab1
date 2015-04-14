@@ -15,12 +15,6 @@ import javax.swing.JFrame;
 public class RequirementsIndexViewerPreperationDlg  extends JDialog
 implements MouseListener  {
 
-	JButton sourceBrowseButton, restoringBrosweButton, stopWordsBrowseButton, okButton;
-	JLabel sourceFolderLabel, tokeninizingLabel, restoringLabel, stopWordsLabel, stemmingLabel;
-	JTextField sourceFolderField, restoringField, stopWordsField;
-	JPanel sourcePanel,tokenPanel,acroynmsPanel,stopWordsPanel,stemmingPanel;
-	JCheckBox tokenizingBox, restoringBox, stopWordsBox, stemmingBox;
-	JFileChooser fc;
 	public RequirementsIndexViewerPreperationDlg()
 	{
 		super(new JFrame(), true);
@@ -231,5 +225,17 @@ implements MouseListener  {
 	{
 		return restoringBox.isSelected();
 	}
+	
+	
+	
+	
+	
+
+	JButton sourceBrowseButton, restoringBrosweButton, stopWordsBrowseButton, okButton;
+	JLabel sourceFolderLabel, tokeninizingLabel, restoringLabel, stopWordsLabel, stemmingLabel;
+	JTextField sourceFolderField, restoringField, stopWordsField;
+	JPanel sourcePanel,tokenPanel,acroynmsPanel,stopWordsPanel,stemmingPanel;
+	JCheckBox tokenizingBox, restoringBox, stopWordsBox, stemmingBox;
+	JFileChooser fc;
 
 }

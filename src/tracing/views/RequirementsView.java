@@ -30,22 +30,12 @@ import org.eclipse.swt.SWT;
  */
 
 public class RequirementsView extends ViewPart implements ISelectionProvider{
-	
-	private ComboViewer comboViewer;
-	private Text text;
-		
+			
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "tracing.views.RequirementsView";
-			
-	/**
-	 * The constructor.
-	 */
-	public RequirementsView() {
-		
-	}
-	
+
 	// Get drop-down menu
 	public ComboViewer getComboViewer()
 	{
@@ -121,4 +111,7 @@ public class RequirementsView extends ViewPart implements ISelectionProvider{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private ComboViewer comboViewer;
+	private Text text;
 }

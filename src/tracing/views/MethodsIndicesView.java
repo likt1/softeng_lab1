@@ -39,33 +39,6 @@ import org.eclipse.jdt.core.JavaCore;
 public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 
 	
-	Map<String, ArrayList<String>> methodMap;
-	
-	@Override
-	public void addSelectionChangedListener(ISelectionChangedListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public ISelection getSelection() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void removeSelectionChangedListener(
-			ISelectionChangedListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setSelection(ISelection selection) {
-		// TODO Auto-generated method stub
-
-	}	
-	
 	@Override
 	public void createPartControl(Composite parent) {
 		Timer timer = new Timer();
@@ -77,10 +50,8 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(description.getName());
 			project.create(description, null);
 			project.open(null);
-		} catch (Exception e)
-		{
-			
-		}
+		} catch (Exception e){}
+		
 		int totalMethod = 0;
 		try{
 			methodMap = new HashMap<String, ArrayList<String>>();
@@ -196,13 +167,6 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 		return sb.toString();
 	}
 
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
-	
 	
 	public static void breakFunction(ArrayList<String> functionList)
 	{
@@ -327,8 +291,7 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 							newList.add(line.substring(oldIndex, i));
 							oldIndex = i;
 						}
-					}
-					
+					}		
 				}
 				if(endWithNewLine)
 				{
@@ -344,5 +307,39 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 		else if (isUpper) return (ch >= 'A' && ch <= 'Z');
 		else return false;
 	}
-}
+	
 
+	@Override
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+	
+	@Override
+	public void addSelectionChangedListener(ISelectionChangedListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ISelection getSelection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeSelectionChangedListener(
+			ISelectionChangedListener listener) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setSelection(ISelection selection) {
+		// TODO Auto-generated method stub
+
+	}	
+
+
+	Map<String, ArrayList<String>> methodMap;
+}
