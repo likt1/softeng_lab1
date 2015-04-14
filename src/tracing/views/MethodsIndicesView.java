@@ -83,10 +83,10 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 		}
 		int totalMethod = 0;
 		try{
-	
-			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-			
 			methodMap = new HashMap<String, ArrayList<String>>();
+			
+			
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			IProject[] projects = root.getProjects();
 
 			// process each project
@@ -105,11 +105,7 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 					
 						if (aPackage.getKind() == IPackageFragmentRoot.K_SOURCE) {
 
-							for (ICompilationUnit unit : aPackage
-									.getCompilationUnits()) {
-
-					
-
+							for (ICompilationUnit unit : aPackage.getCompilationUnits()) {
 								IType[] allTypes = unit.getAllTypes();
 								for (IType type : allTypes) {
 
@@ -123,7 +119,6 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 										list = tokenize(list);
 										//should we have both the original and the tokenized string?
 										methodMap.put(type.getFullyQualifiedName()+ '.' + method.getElementName(), list);
-										
 									}
 								}
 							}
@@ -186,7 +181,6 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 						{
 							e.printStackTrace();
 						}
-						
 					}
 				}
 			}
@@ -197,13 +191,9 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 	}
 
 	private String printFunction(ArrayList<String> list) {
-		String s = "";
-		for(String word : list)
-		{
-		 s += word + " ";
-		}
-		return s;
-		
+		StringBuilder sb = new StringBuilder();
+		for(String word : list){sb.append(word + " ");}
+		return sb.toString();
 	}
 
 	@Override
@@ -298,8 +288,6 @@ public class MethodsIndicesView extends ViewPart implements ISelectionProvider {
 	
 	private ArrayList<String> tokenize(ArrayList<String> list)
 	{
-		
-		
 		ArrayList<String> newList = new ArrayList<String>();
 		for(String line : list)
 		{
